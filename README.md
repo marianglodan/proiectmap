@@ -4,10 +4,10 @@ Proiect individual la disciplina Metode avansate de programare, anul universitar
 
 ## Autor
 
-- **Nume:** [Nume Prenume]
-- **Grupa:** [grupa]
-- **Marca:** [marca]
-- **Tema:** [numarul temei] - [titlul temei]
+- **Nume:** Glodan Marian
+- **Grupa:** 1
+- **Marca:** LH
+- **Tema:** 3 - Catalog de note
 
 ## Descriere
 

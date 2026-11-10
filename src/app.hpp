@@ -1,4 +1,3 @@
-// Starter skeleton for the MAP project.
 // Pure logic lives here so it can be unit tested without starting a server.
 #pragma once
 
@@ -41,6 +40,8 @@ public:
     void Reset() {
         std::lock_guard<std::mutex> guard(mutex_);
         next_id_ = 1;
+        students_.clear();
+        grades_.clear();
     }
 
     int NextId() {
@@ -52,6 +53,58 @@ public:
         std::lock_guard<std::mutex> guard(mutex_);
         return next_id_++;
     }
+
+    void AddStudent(const std::string& id, const std::& name){
+        std::lock_guard<std::mutex> guard(mutex_);
+        if(id.empty() || name.empty()){
+            throw std::invalid_argment("ID-ul si numele nu pot fi goale.");
+        }
+        if(students_.find(id) !=students_.end()){
+            throw std::runtime_error("Studentul cu acest id exista deja");
+        }
+        students_[id]={id,name};
+    }
+
+    void AddGrade(const std::string& student_id, const std::string& subject, double value){
+        std::lock_guard<std::mutex> guard(mutex);
+        if(students_.find(student_id)==students_.end()){
+            throw std::invalid_argument("Studentul nu a fost gasit.");
+
+        }
+        if(subject.empty()){
+            throw std::invalid_argument("Materia nu poate fi goala");
+        }
+        if(value<1.0 || value>10.0){
+            throw std::out_of_range("Nota trebuie sa fie intre 1.0 si 10.0");
+        }
+        grades_.push_back({student_id,subject,value});
+    }
+
+    double GetStudentAverage(const std::string& student_id){
+        std::lock_guard<std::mutex> guard(mutex);
+        if(students_.find(student_id)==students_.end()){
+            throw std::invalid_argument("Studentul nu a fost gasit.");
+
+        }
+        double sum=0.0;
+        int count = 0;
+        for(const auto& g :grades_){
+            if(g.student_id=student_id){
+                sum+=g.value;
+                count++;
+            }
+        }
+
+        if(count==0){
+            throw std::runtime_error("Studentul nu are nicio nota");
+
+
+        }
+
+        return sum /count;
+    }
+
+
 
 private:
     std::mutex mutex_;
@@ -97,4 +150,5 @@ inline std::string HomePage() {
 }
 
 }  // namespace map_project
+
 

@@ -22,6 +22,20 @@ inline std::string Env(const char* key, const std::string& fallback) {
 
 /// Holds the application data in memory.
 /// Everything is lost when the container restarts. Add your theme's structures here.
+
+struct Student{
+    std::string id;
+    std::string name;
+};
+
+struct Grade{
+    std::string student_id;
+    std::string subject;
+    double value;
+};
+
+
+
 class Store {
 public:
     void Reset() {
@@ -42,7 +56,10 @@ public:
 private:
     std::mutex mutex_;
     int next_id_ = 1;
-    // example: std::map<int, Contact> contacts_;
+    
+
+    std::unordered_map<std::string,Student>students_;
+    std::vector<Grade> grades_;
 };
 
 /// Seconds since the process started.
@@ -80,3 +97,4 @@ inline std::string HomePage() {
 }
 
 }  // namespace map_project
+
